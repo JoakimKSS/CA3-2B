@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,16 +27,24 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "user_name", length = 25)
     private String userName;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "user_pass")
     private String userPass;
+    
     @JoinTable(name = "user_roles", joinColumns = {
         @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
         @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
+    
+    @JoinTable(name = "personToBook", joinColumns = {
+        @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+        @JoinColumn(name = "b_id", referencedColumnName = "b_id")})
+    @ManyToMany (cascade = CascadeType.PERSIST)
+    private List<Book> booksOwned = new ArrayList<>();
 
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
@@ -86,8 +96,27 @@ public class User implements Serializable {
         this.roleList = roleList;
     }
 
+    public List<Book> getBooksOwned() {
+        return booksOwned;
+    }
+
+    public void setBooksOwned(List<Book> booksOwned) {
+        this.booksOwned = booksOwned;
+    }
+
     public void addRole(Role userRole) {
         roleList.add(userRole);
     }
+    
+    public void addBook(Book book ) {
+        if(book != null) {
+            booksOwned.add(book);
+            if(!(book.getUsers().contains(this)) ) {
+                book.addUser(this);
+            }
+        }
+    }
+    
+    
 
 }

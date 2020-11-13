@@ -1,14 +1,18 @@
 package facades;
 
+import com.google.gson.Gson;
 import dto.BookDTO;
+import dto.JokeDTO;
 import entities.Book;
 import entities.User;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import utils.HttpUtils;
 
 /**
  *
@@ -18,6 +22,7 @@ public class BookFacade {
 
     private static BookFacade instance;
     private static EntityManagerFactory emf;
+    Gson GSON = new Gson();
     
     //Private Constructor to ensure Singleton
     private BookFacade() {}
@@ -84,4 +89,10 @@ public class BookFacade {
         return books;
     }
 
+    public JokeDTO fetchJoke() throws IOException {
+        String URL = "https://official-joke-api.appspot.com/jokes/random";
+        String data = HttpUtils.fetchData(URL);
+        JokeDTO joke = GSON.fromJson(data, JokeDTO.class);
+        return joke;
+    }
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dto.BookDTO;
 import utils.EMF_Creator;
 import facades.BookFacade;
+import java.io.IOException;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
@@ -72,4 +73,10 @@ public class BookResource {
         return Response.ok().entity(FACADE.getAllBooksOnPerson(dtouser.getUsername())).build();
     }
     
+    @Path("joke")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response fetchFromAPI() throws IOException {
+        return Response.ok().entity(GSON.toJson(FACADE.fetchJoke())).build();
+    }
 }

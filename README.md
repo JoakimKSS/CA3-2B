@@ -1,5 +1,19 @@
 [![Build Status](https://travis-ci.com/fdinsen/CA3.svg?branch=main)](https://travis-ci.com/fdinsen/CA3)
 
+<p>Dette er Frederik Dinsen's individuelle aflevering til CA3</p>
+<p>Jeg har tilføjet en (meget) barebones løsning til at gemme en samling bøger på en bruger.</p>
+<p>Testbruger: username: user, password: test123</p>
+<p>Links:</p>
+<ul>
+  <li>Backend git: https://github.com/fdinsen/CA3-2B</li>
+  <li>Frontend git: https://github.com/fdinsen/CA3-2F</li>
+  <li>Backend deploy: https://fdinsen.com/CA3-2B/</li>
+  <li>Frontend deploy: http://ca3fdin.surge.sh/</li>
+</ul>
+
+
+
+
 <p>All of this expects you have a local user for your MySql databse called dev with ax2 as password</p>
 
 <p>Remember to start your local docker envoriment and run "docker-compose up -d" where your docker image is installed </p>
